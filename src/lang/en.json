@@ -1,2 +1,5 @@
 {
+  "stars": "Stars",
+  "issues": "Issues",
+  "submitted_by": "Submitted {{days}} ago by {{by}}"
 }

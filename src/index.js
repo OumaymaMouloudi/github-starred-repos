@@ -1,9 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from "react-redux";
+import {Provider} from 'react-redux';
 import App from './App';
-import store from "./redux/store";
+import store from './redux/store';
 import './index.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'font-awesome/css/font-awesome.min.css';
+
 
 const rootElement = document.getElementById('root');
 
