@@ -1,53 +1,42 @@
 import React, {useEffect} from 'react';
-import './App.css';
-import {connect} from 'react-redux';
-import {getLatestRepos} from './redux/actions';
-import {Card, Col, Row} from 'reactstrap';
-import {t} from "./i18n";
 import moment from "moment";
+import {connect} from 'react-redux';
+import {get} from 'lodash';
+import {getLatestRepos} from './redux/actions';
+import {RepoCard} from "./components/RepoCard";
+import './App.css';
 
-function App(props) {
+function App({repos, ...props}) {
 
     useEffect(()=>{
-        props.getLatestRepos();
-        console.log('test');
+        props.getLatestRepos({
+            q: `created:>${moment().subtract(30, 'days').format('YYYY-MM-DD')}`
+            , page: 1
+        });
     },[]);
-
-    console.log(props.repos);
 
     return (
         <div className="App">
-
-
-            {props.repos.map((r, index)=>{
-                console.log(r);
-                return (
-                    <Card key={index} className='border border-secondary p-4 my-2'>
-                        <Row>
-                            <Col lg={3} sm={4} xs={12}>
-                                <img className='rounded mr-4' width={200} src={r.owner.avatar_url} alt=""/>
-                            </Col>
-                            <Col className='text-left' lg={9} sm={8} xs={12}>
-                                <h2>{r.name}</h2>
-                                <p>{r.description}</p>
-                                <span className='border border-secondary p-2'>{t('stars') + ': ' + r.stargazers_count}</span>
-                                <span className='border border-secondary p-2 ml-2'>{t('issues') + ': ' + r.open_issues_count}</span>
-                                {console.log(moment().diff(r.created_at,'days'))}
-                                <span className=' p-2 ml-2'>{t('submitted_by', {days:moment().diff(r.created_at,'days'), by:r.owner.login })}</span>
-                            </Col>
-                        </Row>
-                    </Card>
-
-                );
-            })}
-
+            {repos.map((repo, index) =>
+                <RepoCard
+                    ownerName={repo.owner.login}
+                    repoName={repo.name}
+                    description={repo.description}
+                    stars={repo.stargazers_count}
+                    issues={repo.open_issues}
+                    avatarUrl={repo.owner.avatar_url}
+                    creationDate={repo.created_at}
+                    key={index}
+                />
+            )}
         </div>
     );
 }
 
-const mapStateToProps = state => ({
-    repos: state.Repos.list,
+const mapStateToProps = ({Repos}) => ({
+    repos: get(Repos, 'list', [])
 });
+
 export default connect(
     mapStateToProps,
     {

@@ -4,13 +4,11 @@ import {FAILURE, LIST, REQUEST, SUCCESS} from '../../ActionType';
 import {getGithubRepos} from '../../../services/github-repos';
 
 
-export function* get() {
+export function* get(payload) {
     try {
-        const response = yield call(getGithubRepos);
+        const response = yield call(getGithubRepos, payload.params);
         yield put({type: SUCCESS(LIST(GITHUB_REPOS)), response});
-
     } catch(error) {
-
         yield put({ type: FAILURE(LIST(GITHUB_REPOS)), error });
     }
 }

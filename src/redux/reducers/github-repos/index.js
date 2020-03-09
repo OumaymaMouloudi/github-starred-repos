@@ -10,7 +10,6 @@ const initialState = {
 
 const GithubRepos = (state = initialState, action) => {
     const response = action.response;
-    console.log({response})
     switch (action.type) {
         case REQUEST(LIST(GITHUB_REPOS)):
             return {...state, loading: true};
