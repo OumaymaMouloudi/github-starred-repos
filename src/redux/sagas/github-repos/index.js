@@ -8,6 +8,7 @@ export function* get(payload) {
     try {
         const response = yield call(getGithubRepos, payload.params);
         yield put({type: SUCCESS(LIST(GITHUB_REPOS)), response});
+        if(payload.onSuccess) payload.onSuccess();
     } catch(error) {
         yield put({ type: FAILURE(LIST(GITHUB_REPOS)), error });
     }

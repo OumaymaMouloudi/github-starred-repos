@@ -1,5 +1,5 @@
 {
   "stars": "Stars: {{stars}}",
   "issues": "Open issues: {{issues}}",
-  "submitted_by": "Submitted {{date}} by: {{by}}"
+  "submitted_by": "Submitted {{date}} by {{by}}"
 }
