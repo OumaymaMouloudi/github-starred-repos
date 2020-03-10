@@ -7,24 +7,24 @@ import {RepoCard} from './components/RepoCard';
 import './App.css';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-function App({repos, count, ...props}) {
+function App({repos, count, getLatestRepos}) {
 
     const [page, setPage] = useState(1);
 
     useEffect(()=>{
-        props.getLatestRepos(
+        getLatestRepos(
             {
                 q: `created:>${moment().subtract(30, 'days').format('YYYY-MM-DD')}`
-                , page: page
+                , page: 1
             },
             ()=>{
-                setPage(page+1);
+                setPage(2);
             }
         );
-    },[]);
+    },[getLatestRepos]);
 
     const fetchData = ()=>{
-        props.getLatestRepos(
+        getLatestRepos(
             {
                 q: `created:>${moment().subtract(30, 'days').format('YYYY-MM-DD')}`
                 , page: page
